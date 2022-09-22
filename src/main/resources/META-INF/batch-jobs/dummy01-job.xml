@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="dummy01-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    version="1.0">
+    <!-- JobContext -->
+    <!-- <properties> <property name="dumpExportPath" value="#{jobParameters['dumpExportPath']}"
+        /> </properties> -->
+
+    <!-- Dummy01Batchlet実行 -->
+    <step id="dummy01-batchlet-01" next="dummy01-decider">
+        <batchlet ref="dummy01DbInsertBatchlet" />
+    </step>
+
+    <!-- Dummy01判定 -->
+    <decision id="dummy01-decider" ref="dummy01Decider">
+        <next on="SUCCESS" to="dummy01-batchlet-02" />
+        <fail on="*" exit-status="DUMMY01-FAILED-END" />
+    </decision>
+
+    <!-- Dummy02Batchlet実行 -->
+    <step id="dummy01-batchlet-02">
+        <batchlet ref="dummy02DbDeleteBatchlet" />
+        <fail on="FAILURE" exit-status="DUMMY02-FAILED-END" />
+    </step>
+</job>

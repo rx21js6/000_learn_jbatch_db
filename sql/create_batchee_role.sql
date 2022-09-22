@@ -1,0 +1,1 @@
+CREATE ROLE batchee WITH LOGIN PASSWORD 'batchee';
